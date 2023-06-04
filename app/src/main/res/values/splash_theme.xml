@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.App.WebantSplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_screen_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splashscreen_logo_animated_24</item>
+        <item name="windowSplashScreenAnimationDuration">2147483647</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.WebantPracticeV2</item>
+    </style>
+</resources>
