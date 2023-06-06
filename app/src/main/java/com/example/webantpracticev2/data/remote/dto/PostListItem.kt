@@ -1,4 +1,4 @@
-package com.example.webantpracticev2.models
+package com.example.webantpracticev2.data.remote.dto
 
 data class PostListItem(
     var id: Int,

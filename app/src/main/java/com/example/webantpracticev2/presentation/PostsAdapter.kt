@@ -1,4 +1,4 @@
-package com.example.webantpracticev2.adapters
+package com.example.webantpracticev2.presentation
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.webantpracticev2.R
-import com.example.webantpracticev2.models.PostListItem
+import com.example.webantpracticev2.data.remote.dto.PostListItem
 
 class PostsAdapter(private var responseList: List<PostListItem>): RecyclerView.Adapter<PostsAdapter.PostViewHolder>() {
 

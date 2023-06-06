@@ -53,4 +53,7 @@ dependencies {
     //Retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    //livedata and viewmodel
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 }
