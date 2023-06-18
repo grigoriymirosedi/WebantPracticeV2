@@ -15,9 +15,9 @@ import retrofit2.Response
 class MainViewModel: ViewModel() {
 
     val postRepository: PostsRepository = PostListRepositoryImpl()
+    var postListResponse: PostListDto? = null
 
     private val _postsData: MutableLiveData<Resource<PostListDto>> = MutableLiveData()
-    var mService = PostsClient.providePostsApi()
     val postsData: LiveData<Resource<PostListDto>>
         get() = _postsData
 
@@ -35,25 +35,17 @@ class MainViewModel: ViewModel() {
     fun handleResponse(response: Response<PostListDto>): Resource<PostListDto> {
         if(response.isSuccessful) {
             response.body()?.let { responseResult ->
-                return Resource.Success(responseResult)
+                postPage++
+                if(postListResponse == null) {
+                    postListResponse = responseResult
+                } else {
+                    val oldData = postListResponse?.data
+                    val newData = responseResult.data
+                    oldData?.addAll(newData)
+                }
+                return Resource.Success(postListResponse ?: responseResult)
             }
         }
         return Resource.Error(response.message())
     }
-
-    /*init {
-        mService.getPostsList().enqueue(object : Callback<PostListDto> {
-            override fun onResponse(
-                call: Call<PostListDto>,
-                response: Response<PostListDto>
-            ) {
-//                postsAdapter = PostsAdapter(response.body()!!.data)
-//                binding.postsRv.adapter = postsAdapter
-                _postsData.value = response.body()?.data
-            }
-
-            override fun onFailure(call: Call<PostListDto>, t: Throwable) {
-            }
-        })
-    }*/
 }
