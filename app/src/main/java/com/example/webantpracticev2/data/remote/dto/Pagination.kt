@@ -1,3 +1,3 @@
 package com.example.webantpracticev2.data.remote.dto
 
-data class Pagination(var total: Int, var pages: Int, var page: Int, var limit: Int)
+data class Pagination(val total: Int, val pages: Int, val page: Int, val limit: Int)

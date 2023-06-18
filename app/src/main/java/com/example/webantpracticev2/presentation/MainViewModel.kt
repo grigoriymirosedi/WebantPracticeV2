@@ -3,33 +3,49 @@ package com.example.webantpracticev2.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.webantpracticev2.commons.Resource
 import com.example.webantpracticev2.data.remote.api.PostsClient
 import com.example.webantpracticev2.data.remote.dto.PostListDto
-import com.example.webantpracticev2.data.remote.dto.PostListItem
-import retrofit2.Call
-import retrofit2.Callback
+import com.example.webantpracticev2.data.repository.PostListRepositoryImpl
+import com.example.webantpracticev2.domain.repository.PostsRepository
+import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class MainViewModel: ViewModel() {
 
-    private val _postsData = MutableLiveData<List<PostListItem>>()
-    var mService = PostsClient.providePostsApi()
-    val postsData: LiveData<List<PostListItem>>
+    val postRepository: PostsRepository = PostListRepositoryImpl()
+    var postListResponse: PostListDto? = null
+
+    private val _postsData: MutableLiveData<Resource<PostListDto>> = MutableLiveData()
+    val postsData: LiveData<Resource<PostListDto>>
         get() = _postsData
 
-    init {
-        mService.getPostsList().enqueue(object : Callback<PostListDto> {
-            override fun onResponse(
-                call: Call<PostListDto>,
-                response: Response<PostListDto>
-            ) {
-//                postsAdapter = PostsAdapter(response.body()!!.data)
-//                binding.postsRv.adapter = postsAdapter
-                _postsData.value = response.body()?.data
-            }
+    var postPage = 1
 
-            override fun onFailure(call: Call<PostListDto>, t: Throwable) {
+    init {
+        getPosts()
+    }
+    fun getPosts() = viewModelScope.launch {
+        _postsData.postValue(Resource.Loading())
+        val response = postRepository.getPosts(postPage)
+        _postsData.postValue(handleResponse(response))
+    }
+
+    fun handleResponse(response: Response<PostListDto>): Resource<PostListDto> {
+        if(response.isSuccessful) {
+            response.body()?.let { responseResult ->
+                postPage++
+                if(postListResponse == null) {
+                    postListResponse = responseResult
+                } else {
+                    val oldData = postListResponse?.data
+                    val newData = responseResult.data
+                    oldData?.addAll(newData)
+                }
+                return Resource.Success(postListResponse ?: responseResult)
             }
-        })
+        }
+        return Resource.Error(response.message())
     }
 }
