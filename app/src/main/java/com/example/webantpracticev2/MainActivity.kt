@@ -1,8 +1,5 @@
 package com.example.webantpracticev2
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,10 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    //private lateinit var mService: PostsApi
     private lateinit var postsAdapter: PostsAdapter
     private lateinit var viewModel: MainViewModel
-    private lateinit var list: List<PostListItem>
     private lateinit var splashScreen: SplashScreen
 
     val TAG: String = "PostResponse"
@@ -60,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                         Log.e(TAG, "An error occured: $message")
                     }
                 }
-
                 is Resource.Loading -> {
                     showProgressBar()
                 }
