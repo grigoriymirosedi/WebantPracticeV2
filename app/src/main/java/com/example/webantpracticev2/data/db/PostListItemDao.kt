@@ -1,6 +1,5 @@
 package com.example.webantpracticev2.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
