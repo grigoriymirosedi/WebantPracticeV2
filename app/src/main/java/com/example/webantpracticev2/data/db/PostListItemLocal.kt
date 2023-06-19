@@ -8,7 +8,7 @@ import com.example.webantpracticev2.data.remote.dto.PostListItem
 data class PostListItemLocal(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
-    val code: Int,
-    val MetaData: Int,
-    val data: List<PostListItem>,
+    val user_id: Int?,
+    val title: String?,
+    val body: String?,
 )
